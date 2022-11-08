@@ -1,0 +1,93 @@
+@use "mixins";
+@use "variables" as var;
+
+body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  background-color: rgb(70, 70, 208);
+  font-family: var.$primary_font;
+  font-size: 0.6rem;
+  color: white;
+  min-height: 95vh;
+  height: fit-content;
+  border-inline: 1px solid white;
+}
+
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  margin-bottom: 20px;
+
+  .start_text {
+    width: 80%;
+    text-align: center;
+    text-indent: 4px;
+    line-height: 15px;
+    padding: 10px;
+  }
+
+  &__input {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    box-shadow: 2px 3px 0px rgb(0 0 0 / 1);
+  }
+
+  &__btn {
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    border: 1px solid white;
+    color: white;
+    font-family: var.$primary_font;
+    padding: 2px;
+    box-shadow: 3px 4px 0px rgb(0 0 0 / 1);
+    cursor: pointer;
+  }
+
+  &__result {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  margin-top: 10px;
+  padding: 10px;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  //   @include mixins.movie-result;
+
+  &:hover {
+    border: 0.5px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+  }
+
+  &__img {
+    height: 200px;
+  }
+
+  &__title {
+    padding: 10px;
+    text-align: center;
+  }
+
+  &__year {
+    margin: 0;
+  }
+
+  &__type {
+    font-size: 0.5rem;
+  }
+}
