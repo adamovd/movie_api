@@ -1,3 +1,4 @@
+import { Movie } from "./models/movie";
 import { OmdbResponse } from "./models/omdbResponse";
 
 const startText:HTMLParagraphElement = document.createElement("p");
@@ -5,7 +6,7 @@ const searchContainer:HTMLDivElement = document.createElement("div");
 const searchInput:HTMLInputElement = document.createElement("input")
 const searchBtn:HTMLButtonElement = document.createElement("button");
 const searchResult:HTMLParagraphElement = document.createElement("p");
-let movieSearch:[] = [];
+let movieSearch:Movie[] = [];
 
 searchInput.type = "text";
 searchBtn.type = "submit";
@@ -41,28 +42,29 @@ searchBtn.addEventListener("click", () => {
     
         let result:OmdbResponse = new OmdbResponse(data.totalResults, data.Search);
         
-        movieSearch.push(result.movies); 
+        movieSearch = (result.movies); 
         
         // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
         
         searchInput.value = "";
         
         handleData(result.movies, result.amount);
-        console.log(result.movies);
+        console.log(movieSearch);
+        
         
     });
 });
 
-function handleData(movies:[], amount:number) {
+function handleData(movies:Movie[], amount:number) {
 
-    for (let i = 0; i < movies.length; i++) {
+    for (let i = 0; i < movieSearch.length; i++) {
 
         const movieContainer = document.createElement("section");
         const img:HTMLImageElement = document.createElement("img");
         const title:HTMLHeadingElement = document.createElement("h3");
         const year:HTMLParagraphElement = document.createElement("p");
         const type:HTMLParagraphElement = document.createElement("p");
-
+        
         movieContainer.classList.add("movie");
         title.classList.add("movie__title");
         year.classList.add("movie__year");
@@ -70,11 +72,11 @@ function handleData(movies:[], amount:number) {
         type.classList.add("movie__type");
         startText.classList.remove("start_text");
 
-        title.innerHTML = movies[i].Title;
-        year.innerHTML = movies[i].Year;
-        type.innerHTML = movies[i].Type;
-        img.src = movies[i].Poster;
-        img.alt = movies[i].Title;
+        title.innerHTML = movieSearch[i].title;
+        year.innerHTML = movieSearch[i].year;
+        type.innerHTML = movieSearch[i].type;
+        img.src = movieSearch[i].imageUrl;
+        img.alt = movieSearch[i].title;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = ""
 
@@ -88,4 +90,3 @@ function handleData(movies:[], amount:number) {
     }
 }
 
-console.log(movieSearch);

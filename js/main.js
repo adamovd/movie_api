@@ -27,15 +27,15 @@ window.addEventListener("load", function () {
 searchBtn.addEventListener("click", function () {
     fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then(function (response) { return response.json(); }).then(function (data) {
         var result = new omdbResponse_1.OmdbResponse(data.totalResults, data.Search);
-        movieSearch.push(result.movies);
+        movieSearch = (result.movies);
         // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
         searchInput.value = "";
         handleData(result.movies, result.amount);
-        console.log(result.movies);
+        console.log(movieSearch);
     });
 });
 function handleData(movies, amount) {
-    for (var i = 0; i < movies.length; i++) {
+    for (var i = 0; i < movieSearch.length; i++) {
         var movieContainer = document.createElement("section");
         var img = document.createElement("img");
         var title = document.createElement("h3");
@@ -47,11 +47,11 @@ function handleData(movies, amount) {
         img.classList.add(("movie__img"));
         type.classList.add("movie__type");
         startText.classList.remove("start_text");
-        title.innerHTML = movies[i].Title;
-        year.innerHTML = movies[i].Year;
-        type.innerHTML = movies[i].Type;
-        img.src = movies[i].Poster;
-        img.alt = movies[i].Title;
+        title.innerHTML = movieSearch[i].title;
+        year.innerHTML = movieSearch[i].year;
+        type.innerHTML = movieSearch[i].type;
+        img.src = movieSearch[i].imageUrl;
+        img.alt = movieSearch[i].title;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = "";
         movieContainer.appendChild(img);
@@ -61,4 +61,3 @@ function handleData(movies, amount) {
         document.body.appendChild(movieContainer);
     }
 }
-console.log(movieSearch);

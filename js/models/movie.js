@@ -2,13 +2,14 @@
 exports.__esModule = true;
 exports.Movie = void 0;
 var Movie = /** @class */ (function () {
+    // year: number;
     function Movie(title, year, imageUrl, type) {
         this.title = title;
         this.year = year;
         this.imageUrl = imageUrl;
         this.type = type;
-        parseInt(year);
-        type.toUpperCase();
+        // this.year = parseInt(year);
+        // this.type.toUpperCase();
     }
     return Movie;
 }());
