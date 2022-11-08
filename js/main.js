@@ -35,7 +35,7 @@ searchBtn.addEventListener("click", function () {
     });
 });
 function handleData(movies, amount) {
-    for (var i = 0; i < movieSearch.length; i++) {
+    for (var i = 0; i < movies.length; i++) {
         var movieContainer = document.createElement("section");
         var img = document.createElement("img");
         var title = document.createElement("h3");
@@ -47,11 +47,12 @@ function handleData(movies, amount) {
         img.classList.add(("movie__img"));
         type.classList.add("movie__type");
         startText.classList.remove("start_text");
-        title.innerHTML = movieSearch[i].title;
-        year.innerHTML = movieSearch[i].year;
-        type.innerHTML = movieSearch[i].type;
-        img.src = movieSearch[i].imageUrl;
-        img.alt = movieSearch[i].title;
+        //om jag skriver stor bokstav på Title, Year osv. nedanför så funkar det.
+        title.innerHTML = movies[i].title;
+        year.innerHTML = movies[i].year;
+        type.innerHTML = movies[i].type;
+        img.src = movies[i].imageUrl;
+        img.alt = movies[i].title;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = "";
         movieContainer.appendChild(img);

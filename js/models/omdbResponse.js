@@ -6,6 +6,7 @@ var OmdbResponse = /** @class */ (function () {
     function OmdbResponse(amount, movies) {
         this.amount = amount;
         this.movies = movies;
+        //ingen ny lista med Movie-objekt skapas vad jag kan se
         movies.map(function (movie) {
             return new movie_1.Movie(movie.title, movie.year, movie.imageUrl, movie.type);
         });

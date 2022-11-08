@@ -14,3 +14,4 @@ var Movie = /** @class */ (function () {
     return Movie;
 }());
 exports.Movie = Movie;
+//får felmeddelande på parseInt och toUpperCase, samt att det inte går att använda year i main.js
