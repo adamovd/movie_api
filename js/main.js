@@ -14,7 +14,7 @@ searchContainer.classList.add("search");
 searchInput.classList.add("search__input");
 searchBtn.classList.add("search__btn");
 searchResult.classList.add("search__result");
-startText.innerHTML = "Welcome to this database of movies, that we encountered on our mission to Earth 6782. \nOn our journey through the multiverse we found a version of earth where they no longer watch movies on VHS, but use something called \"streaming\". \nWe managed to get access to all the different movies they've produced on this earth and turned them into VHS's for you to buy or rent. \nWe ship to every planet and version of earth in all explored universes.";
+startText.innerHTML = "Welcome to this database of movies, that we encountered on our mission to Earth 6782. </br>\n</br>\nOn our journey through the multiverse we found a version of earth where they no longer watch movies on VHS, but use something called \"streaming\". </br>\n</br>\nWe managed to get access to all the different movies they've produced on this earth and turned them into VHS's for you to buy or rent. </br>\n</br>\nWe ship to every planet and version of earth in all explored universes.";
 searchBtn.innerHTML = "Search";
 window.addEventListener("load", function () {
     // movieSearch = JSON.parse(localStorage.getItem("movieSearch"));
@@ -33,16 +33,15 @@ searchBtn.addEventListener("click", function () {
     // console.log(result.movies);
     // console.log(movieSearch);
     axios_1["default"].get("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then(function (response) {
-        var search = response.data.Search;
-        var amount = response.data.totalResults;
-        movieSearch = search;
-        console.log(search);
+        var amount = parseInt(response.data.totalResults);
+        handleData(response.data.Search, amount);
         searchInput.value = "";
-        handleData(movieSearch, amount);
+        console.log(amount);
     });
 });
 function handleData(movieSearch, amount) {
-    for (var i = 0; i < movieSearch.length; i++) {
+    var _loop_1 = function (i) {
+        // let yearNumber:number = parseInt(movieSearch[i].Year);
         var movieContainer = document.createElement("section");
         var img = document.createElement("img");
         var title = document.createElement("h3");
@@ -54,7 +53,9 @@ function handleData(movieSearch, amount) {
         img.classList.add(("movie__img"));
         type.classList.add("movie__type");
         startText.classList.remove("start_text");
-        //om jag skriver stor bokstav på Title, Year osv. nedanför så funkar det.
+        movieContainer.addEventListener("click", function () {
+            handeClick(movieSearch[i]);
+        });
         title.innerHTML = movieSearch[i].Title;
         year.innerHTML = movieSearch[i].Year;
         type.innerHTML = movieSearch[i].Type;
@@ -67,5 +68,11 @@ function handleData(movieSearch, amount) {
         movieContainer.appendChild(year);
         movieContainer.appendChild(type);
         document.body.appendChild(movieContainer);
+    };
+    for (var i = 0; i < movieSearch.length; i++) {
+        _loop_1(i);
     }
 }
+var handeClick = function (movie) {
+    axios_1["default"].get("http://www.omdbapi.com/?apikey=62a4b431&i=" + movie.imdbID);
+};

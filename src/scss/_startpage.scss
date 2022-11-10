@@ -59,15 +59,25 @@ body {
   }
 }
 
-.movie {
+.searchresult {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2%;
+}
+
+.moviesearch {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 20%;
+  height: 300px;
   margin-top: 10px;
   padding: 10px;
   border: 0.5px solid rgba(0, 0, 0, 0.2);
-  //   @include mixins.movie-result;
 
   &:hover {
     border: 0.5px solid rgba(255, 255, 255, 0.5);
@@ -89,5 +99,19 @@ body {
 
   &__type {
     font-size: 0.5rem;
+  }
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw;
+  border: 1px solid white;
+  background-color: gray;
+  padding: 10px;
+
+  &__poster {
+    width: 100px;
   }
 }

@@ -2,5 +2,6 @@ export interface IMovie {
     Title:string;
     Year:string;
     Poster:string;
-    Type:string
+    Type:string;
+    imdbID:string;
 }
