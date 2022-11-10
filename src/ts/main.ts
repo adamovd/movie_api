@@ -1,12 +1,15 @@
-import { Movie } from "./models/movie";
-import { OmdbResponse } from "./models/omdbResponse";
+import axios from "axios";
+// import { Movie } from "./models/movie";
+// import { OmdbResponse } from "./models/omdbResponse";
+import { IOmdbResponse } from "./models/IOmdbResponse";
+import { IMovie } from "./models/IMovie";
 
 const startText:HTMLParagraphElement = document.createElement("p");
 const searchContainer:HTMLDivElement = document.createElement("div");
 const searchInput:HTMLInputElement = document.createElement("input")
 const searchBtn:HTMLButtonElement = document.createElement("button");
 const searchResult:HTMLParagraphElement = document.createElement("p");
-let movieSearch:Movie[] = [];
+let movieSearch:IMovie[] = [];
 
 searchInput.type = "text";
 searchBtn.type = "submit";
@@ -38,27 +41,37 @@ window.addEventListener("load", () => {
 });
 
 searchBtn.addEventListener("click", () => {
-    fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then((response) => response.json()).then((data) => {
+    // fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then((response) => response.json()).then((data) => {
     
-        let result:OmdbResponse = new OmdbResponse(data.totalResults, data.Search);
-        
-        movieSearch = (result.movies); 
+    //     let result:OmdbResponse = new OmdbResponse(data.totalResults, data.Search);
+    //     movieSearch = (result.movies.map((movie:Movie) => {
+    //         return new Movie(movie.Title, movie.Year, movie.Poster, movie.Type);})); 
         
         // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
         
-        searchInput.value = "";
+        // console.log(result.movies);
+        // console.log(movieSearch);
         
-        handleData(result.movies, result.amount);
-        console.log(movieSearch);
-        
+        axios.get<IOmdbResponse>("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then((response) => {
+            let search = response.data.Search;
+            let amount = response.data.totalResults;
+            
+            movieSearch = search;
+            
+            
+            console.log(search);
+            searchInput.value = "";
+            
+            handleData(movieSearch, amount);
+        })
         
         
     });
-});
 
-function handleData(movies:Movie[], amount:number) {
 
-    for (let i = 0; i < movies.length; i++) {
+function handleData(movieSearch: IMovie[], amount:string) {
+
+    for (let i = 0; i < movieSearch.length; i++) {
 
         const movieContainer = document.createElement("section");
         const img:HTMLImageElement = document.createElement("img");
@@ -74,11 +87,11 @@ function handleData(movies:Movie[], amount:number) {
         startText.classList.remove("start_text");
 
         //om jag skriver stor bokstav på Title, Year osv. nedanför så funkar det.
-        title.innerHTML = movies[i].title;
-        year.innerHTML = movies[i].year;
-        type.innerHTML = movies[i].type;
-        img.src = movies[i].imageUrl;
-        img.alt = movies[i].title;
+        title.innerHTML = movieSearch[i].Title;
+        year.innerHTML = movieSearch[i].Year;
+        type.innerHTML = movieSearch[i].Type;
+        img.src = movieSearch[i].Poster;
+        img.alt = movieSearch[i].Title;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = ""
 

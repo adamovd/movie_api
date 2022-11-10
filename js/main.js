@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-var omdbResponse_1 = require("./models/omdbResponse");
+var axios_1 = require("axios");
 var startText = document.createElement("p");
 var searchContainer = document.createElement("div");
 var searchInput = document.createElement("input");
@@ -25,17 +25,24 @@ window.addEventListener("load", function () {
     document.body.appendChild(searchContainer);
 });
 searchBtn.addEventListener("click", function () {
-    fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then(function (response) { return response.json(); }).then(function (data) {
-        var result = new omdbResponse_1.OmdbResponse(data.totalResults, data.Search);
-        movieSearch = (result.movies);
-        // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
+    // fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then((response) => response.json()).then((data) => {
+    //     let result:OmdbResponse = new OmdbResponse(data.totalResults, data.Search);
+    //     movieSearch = (result.movies.map((movie:Movie) => {
+    //         return new Movie(movie.Title, movie.Year, movie.Poster, movie.Type);})); 
+    // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
+    // console.log(result.movies);
+    // console.log(movieSearch);
+    axios_1["default"].get("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then(function (response) {
+        var search = response.data.Search;
+        var amount = response.data.totalResults;
+        movieSearch = search;
+        console.log(search);
         searchInput.value = "";
-        handleData(result.movies, result.amount);
-        console.log(movieSearch);
+        handleData(movieSearch, amount);
     });
 });
-function handleData(movies, amount) {
-    for (var i = 0; i < movies.length; i++) {
+function handleData(movieSearch, amount) {
+    for (var i = 0; i < movieSearch.length; i++) {
         var movieContainer = document.createElement("section");
         var img = document.createElement("img");
         var title = document.createElement("h3");
@@ -48,11 +55,11 @@ function handleData(movies, amount) {
         type.classList.add("movie__type");
         startText.classList.remove("start_text");
         //om jag skriver stor bokstav på Title, Year osv. nedanför så funkar det.
-        title.innerHTML = movies[i].title;
-        year.innerHTML = movies[i].year;
-        type.innerHTML = movies[i].type;
-        img.src = movies[i].imageUrl;
-        img.alt = movies[i].title;
+        title.innerHTML = movieSearch[i].Title;
+        year.innerHTML = movieSearch[i].Year;
+        type.innerHTML = movieSearch[i].Type;
+        img.src = movieSearch[i].Poster;
+        img.alt = movieSearch[i].Title;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = "";
         movieContainer.appendChild(img);
