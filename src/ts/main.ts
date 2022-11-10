@@ -24,6 +24,7 @@ searchResult.classList.add("search__result");
 searchDiv.classList.add("searchresult");
 movieContainer.classList.add("movie");
 
+searchBtn.innerHTML = "Search";
 startText.innerHTML = `Welcome to this database of movies, that we encountered on our mission to Earth 6782. </br>
 </br>
 On our journey through the multiverse we found a version of earth where they no longer watch movies on VHS, but use something called "streaming". </br>
@@ -31,7 +32,6 @@ On our journey through the multiverse we found a version of earth where they no 
 We managed to get access to all the different movies they've produced on this earth and turned them into VHS's for you to buy or rent. </br>
 </br>
 We ship to every planet and version of earth in all explored universes.`
-searchBtn.innerHTML = "Search";
 
 window.addEventListener("load", () => {
     // movieSearch = JSON.parse(localStorage.getItem("movieSearch"));
@@ -43,30 +43,16 @@ window.addEventListener("load", () => {
     searchContainer.appendChild(searchDiv);
 
     document.body.appendChild(searchContainer);
-    
-    
-    
 });
 
 searchBtn.addEventListener("click", () => {
-    // fetch("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value.split(" ").join("%20") + "").then((response) => response.json()).then((data) => {
-    
-    //     let result:OmdbResponse = new OmdbResponse(data.totalResults, data.Search);
-    //     movieSearch = (result.movies.map((movie:Movie) => {
-    //         return new Movie(movie.Title, movie.Year, movie.Poster, movie.Type);})); 
-        
-        // localStorage.setItem("movieSearch", JSON.stringify(result.movies));
-        
-        // console.log(result.movies);
-        // console.log(movieSearch);
         
         axios.get<IOmdbResponse>("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value).then((response) => {
 
             let amount = parseInt(response.data.totalResults);
             handleData(response.data.Search, amount);
-            searchInput.value = "";
-            
-        })
+            searchInput.value = "";  
+        });
     });
 
 
@@ -136,6 +122,7 @@ const handeClick = (movie: IMovie) => {
     movieDirector.innerHTML = "Director: " + response.data.Director;
     movieActors.innerHTML = "Actors: " + response.data.Actors;
     moviePlot.innerHTML = response.data.Plot;
+    
     searchDiv.innerHTML = "";
 
     movieContainer.appendChild(moviePoster);
