@@ -1,6 +1,4 @@
 import axios from "axios";
-// import { Movie } from "./models/movie";
-// import { OmdbResponse } from "./models/omdbResponse";
 import { IOmdbResponse } from "./models/IOmdbResponse";
 import { IMovie } from "./models/IMovie";
 import { IMovieExtended } from "./models/IMovieExtended";
@@ -34,8 +32,6 @@ We managed to get access to all the different movies they've produced on this ea
 We ship to every planet and version of earth in all explored universes.`
 
 window.addEventListener("load", () => {
-    // movieSearch = JSON.parse(localStorage.getItem("movieSearch"));
-    
     searchContainer.appendChild(startText);
     searchContainer.appendChild(searchInput);
     searchContainer.appendChild(searchBtn);
@@ -50,8 +46,11 @@ searchBtn.addEventListener("click", () => {
         axios.get<IOmdbResponse>("http://www.omdbapi.com/?apikey=62a4b431&s=" + searchInput.value).then((response) => {
 
             let amount = parseInt(response.data.totalResults);
+            searchDiv.innerHTML = ""; 
             handleData(response.data.Search, amount);
-            searchInput.value = "";  
+            searchInput.value = ""; 
+            console.log(response.data.Search);
+            
         });
     });
 
@@ -79,11 +78,17 @@ function handleData(movieSearch: IMovie[], amount:number) {
         
         title.innerHTML = movieSearch[i].Title;
         year.innerHTML = movieSearch[i].Year;
-        type.innerHTML = movieSearch[i].Type;
-        img.src = movieSearch[i].Poster;
+        if (movieSearch[i].Poster === "N/A") {
+            img.src = "https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2FmM2JiM2M1XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_SX300.jpg"
+            ;
+        }else {
+            img.src = movieSearch[i].Poster;
+        }
         img.alt = movieSearch[i].Title;
+        type.innerHTML = movieSearch[i].Type;
         searchResult.innerHTML = "Your search returned " + amount + " results";
         startText.innerHTML = ""
+
         
         movieSearchContainer.appendChild(img);
         movieSearchContainer.appendChild(title);
@@ -92,8 +97,11 @@ function handleData(movieSearch: IMovie[], amount:number) {
         
         
         searchDiv.appendChild(movieSearchContainer); 
+        
     }
 }
+
+
 
 const handeClick = (movie: IMovie) => {
     axios.get<IMovieExtended>("http://www.omdbapi.com/?apikey=62a4b431&i=" + movie.imdbID).then((response) => {
