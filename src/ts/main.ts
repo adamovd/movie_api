@@ -47,6 +47,8 @@ searchBtn.addEventListener("click", () => {
 
             let amount = parseInt(response.data.totalResults);
             searchDiv.innerHTML = ""; 
+            movieContainer.innerHTML = "";
+            movieContainer.classList.remove("movie");
             handleData(response.data.Search, amount);
             searchInput.value = ""; 
             console.log(response.data.Search);
@@ -114,6 +116,7 @@ const handeClick = (movie: IMovie) => {
     const movieActors:HTMLParagraphElement = document.createElement("p");
     const moviePlot:HTMLParagraphElement = document.createElement("p");
 
+    movieContainer.classList.add("movie");
     moviePoster.classList.add("movie__poster");
     movieTitle.classList.add("movie__title");
     movieYear.classList.add("movie__year");
