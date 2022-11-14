@@ -6,6 +6,7 @@ import { IMovieExtended } from "./models/IMovieExtended";
 
 
 //selectors
+const logo:HTMLHeadingElement = document.createElement("h1");
 const startText:HTMLParagraphElement = document.createElement("p");
 const searchContainer:HTMLDivElement = document.createElement("div");
 const searchInput:HTMLInputElement = document.createElement("input");
@@ -13,6 +14,7 @@ const searchBtn:HTMLButtonElement = document.createElement("button");
 const searchResult:HTMLParagraphElement = document.createElement("p");
 const searchDiv:HTMLDivElement = document.createElement("div");
 const movieContainer:HTMLDivElement = document.createElement("div");
+const addDiv:HTMLDivElement = document.createElement("div");
 const nextPageBtn:HTMLButtonElement = document.createElement("button");
 const prevPageBtn:HTMLButtonElement = document.createElement("button");
 let currentPage:number = 1;
@@ -22,7 +24,8 @@ searchBtn.type = "submit";
 nextPageBtn.type = "button";
 prevPageBtn.type = "button";
 
-startText.classList.add("start_text")
+logo.classList.add("logo");
+startText.classList.add("start_text");
 searchContainer.classList.add("search");
 searchInput.classList.add("search__input");
 searchBtn.classList.add("search__btn");
@@ -30,7 +33,7 @@ searchResult.classList.add("search__result");
 searchDiv.classList.add("searchresult");
 movieContainer.classList.add("movie");
 
-
+logo.innerHTML = "GALAXYMOVIES"
 searchBtn.innerHTML = "Search";
 startText.innerHTML = `Welcome to this database of movies, that we encountered on our mission to Earth 6782. </br>
 </br>
@@ -43,14 +46,9 @@ We ship to every planet and version of earth in all explored universes.`
 
 
 window.addEventListener("load", () => {
-    searchContainer.appendChild(startText);
-    searchContainer.appendChild(searchInput);
-    searchContainer.appendChild(searchBtn);
-    searchContainer.appendChild(searchResult);
-    searchContainer.appendChild(searchDiv);
-    
-    document.body.appendChild(searchContainer);
+    start();
 });
+
 
 searchBtn.addEventListener("click", () => {
     const url = searchInput.value;
@@ -58,6 +56,17 @@ searchBtn.addEventListener("click", () => {
     currentPage = 1;
     getMovies(currentPage);
     });
+
+function start() {
+    searchContainer.appendChild(startText);
+    searchContainer.appendChild(searchInput);
+    searchContainer.appendChild(searchBtn);
+    searchContainer.appendChild(searchResult);
+    searchContainer.appendChild(searchDiv);
+    
+    document.body.appendChild(logo);
+    document.body.appendChild(searchContainer);
+}
 
 function getMovies(page:number){
     axios
@@ -129,11 +138,13 @@ function handleData(movieSearch: IMovie[], amount:number):void {
 
 
 const handeClick = (movie: IMovie) => {
-    axios.get<IMovieExtended>("http://www.omdbapi.com/?apikey=62a4b431&i=" + movie.imdbID).then((response) => {
-    
+    axios.get<IMovieExtended>("http://www.omdbapi.com/?apikey=62a4b431&i=" + movie.imdbID
+    )
+    .then((response) => {
     searchDiv.innerHTML = "";
     searchResult.innerHTML = "";
     nextPageBtn.innerHTML = "";
+    prevPageBtn.innerHTML = "";
 
     const movieImgContainer:HTMLDivElement = document.createElement("div");
     const movieInfoContainer:HTMLDivElement = document.createElement("div");
@@ -183,6 +194,10 @@ const handeClick = (movie: IMovie) => {
     rentStock.innerHTML = "In Stock";
     rentBtn.innerHTML = "Add to cart";
 
+    rentBtn.addEventListener("click", () => {
+        rentCheckout();
+    });
+
     movieImgContainer.appendChild(moviePoster);
 
     movieInfoContainer.appendChild(movieTitle);
@@ -201,6 +216,34 @@ const handeClick = (movie: IMovie) => {
     movieContainer.appendChild(movieRentContainer);
     searchContainer.appendChild(movieContainer);
 });
+}
+
+function rentCheckout() {
+    addDiv.classList.add("add");
+    const load:HTMLParagraphElement = document.createElement("p");
+    const cantAdd:HTMLParagraphElement = document.createElement("p"); 
+    load.classList.add("add__load");
+
+    load.innerHTML = "";
+    cantAdd.innerHTML = "";
+    
+    load.innerHTML = "Adding to cart...";
+
+
+    addDiv.appendChild(load);
+    document.body.appendChild(addDiv);
+    setTimeout(() => {
+        load.innerHTML = "...Getting your location..."
+    }, 2500);
+    setTimeout(() => {
+      cantAdd.classList.add("add__nobuy");
+      load.innerHTML = "";
+      cantAdd.innerHTML = "You live on earth 6782, you can watch Netflix! </br> You don't need this!"; 
+        addDiv.appendChild(cantAdd);
+    }, 6000);
+    addDiv.addEventListener("click", () => {
+        document.body.removeChild(addDiv);
+    });
 }
 
 function disablePrevPageBtn() {

@@ -2,5 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 //fonts
-
 $primary_font: "Press Start 2P", cursive;
+
+// breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$laptop: 992px;
+$desktop: 1200px;

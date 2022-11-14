@@ -1,9 +1,26 @@
 @use "variables" as var;
 
-@mixin movie-result {
-  background-image: url(../assets/cover_movie.png);
-  background-repeat: no-repeat;
-  background-size: 300px;
+@mixin for-size($size) {
+  @if $size == mobile {
+    @media screen and (min-width: var.$mobile) {
+      @content;
+    }
+  }
+  @if $size == tablet {
+    @media screen and (min-width: var.$tablet) {
+      @content;
+    }
+  }
+  @if $size == laptop {
+    @media screen and (min-width: var.$laptop) {
+      @content;
+    }
+  }
+  @if $size == desktop {
+    @media screen and (min-width: var.$desktop) {
+      @content;
+    }
+  }
 }
 
 @mixin button {
