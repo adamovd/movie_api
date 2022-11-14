@@ -3,11 +3,17 @@
 @mixin movie-result {
   background-image: url(../assets/cover_movie.png);
   background-repeat: no-repeat;
-  background-size: 200px;
-  background-position-x: 90px;
-  background-position-y: -5px;
-  z-index: +10;
+  background-size: 300px;
 }
 
 @mixin button {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  border: 1px solid white;
+  color: white;
+  font-family: var.$primary_font;
+  padding: 5px;
+  box-shadow: 3px 4px 0px rgb(0 0 0 / 1);
+  cursor: pointer;
 }

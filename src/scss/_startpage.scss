@@ -41,15 +41,7 @@ body {
   }
 
   &__btn {
-    display: flex;
-    flex-direction: row;
-    background-color: black;
-    border: 1px solid white;
-    color: white;
-    font-family: var.$primary_font;
-    padding: 2px;
-    box-shadow: 3px 4px 0px rgb(0 0 0 / 1);
-    cursor: pointer;
+    @include mixins.button;
   }
 
   &__result {
@@ -61,31 +53,40 @@ body {
 
 .searchresult {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 100%;
-  gap: 2%;
+  gap: 10%;
 }
 
 .moviesearch {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20%;
-  height: 320px;
-  margin-top: 10px;
+  background-color: rgb(70, 70, 208);
+  width: 80%;
+  height: 400px;
+  margin-top: 40px;
   padding: 10px;
   border: 0.5px solid rgba(0, 0, 0, 0.2);
 
   &:hover {
     border: 0.5px solid rgba(255, 255, 255, 0.5);
+    background-color: rgb(58, 58, 168);
+    box-shadow: 6px 6px 0px rgb(30 30 30 / 1);
     cursor: pointer;
   }
 
   &__img {
-    height: 200px;
+    height: 300px;
+    max-width: 200px;
+    box-shadow: 6px 6px 0px rgb(30 30 30 / 1);
+
+    &:hover {
+      box-shadow: -2px -2px 0px rgb(0 0 0 / 1);
+    }
   }
 
   &__title {
@@ -102,16 +103,82 @@ body {
   }
 }
 
-.movie {
+.moviecontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80vw;
-  border: 1px solid white;
-  background-color: gray;
+  justify-content: center;
+  max-width: 90vw;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.img {
+  &__poster {
+    width: 150px;
+    box-shadow: 6px 6px 0px rgb(0 0 0 / 1);
+  }
+}
+
+.movie {
+  border-top: 0.5px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  text-indent: 4px;
+  line-height: 10px;
+
+  &__title {
+    line-height: 15px;
+  }
+
+  &__year,
+  &__runtime,
+  &__director,
+  &__actors,
+  &__plot {
+    font-size: 0.4rem;
+  }
+}
+
+.rent {
+  border-top: 0.5px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
 
-  &__poster {
-    width: 200px;
+  &__price {
+    font-size: 1.5rem;
   }
+
+  &__btn {
+    @include mixins.button;
+  }
+}
+
+.nextpgbtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  background-color: rgb(70, 70, 208);
+  font-family: var.$primary_font;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+.prevpgbtn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  background-color: rgb(70, 70, 208);
+  font-family: var.$primary_font;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
 }
