@@ -18,6 +18,7 @@ body {
 .logo {
   text-shadow: 2px 3px 0px rgb(0 0 0 / 1);
   margin: 20px;
+  cursor: pointer;
 
   @include mixins.for-size(tablet) {
     margin-top: 30px;
